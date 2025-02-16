@@ -38,17 +38,9 @@ export default (client: Client) => {
         }
         catch (error) {
             if (error instanceof Error) {
-                if (interaction.replied || interaction.deferred) {
-                    await interaction.followUp({ content: error.message, ephemeral: true });
-                } else {
-                    await handleReplyOrFollowup(interaction, error.message, true);
-                }
+                await handleReplyOrFollowup(interaction, error.message, true);
             } else {
-                if (interaction.replied || interaction.deferred) {
-                    await interaction.followUp({ content: 'An unknown error occurred.', ephemeral: true });
-                } else {
-                    await handleReplyOrFollowup(interaction, 'An unknown error occurred.', true);
-                }
+                await handleReplyOrFollowup(interaction, 'An unknown error occurred.', true);
             }
         }
     });

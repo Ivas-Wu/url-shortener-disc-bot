@@ -124,7 +124,7 @@ async function executeCondenseChatMessages(interaction: ChatInputCommandInteract
         // create collection if needed
         try {
             if (!collectionUrl || collectionUrl.length == 0) {
-                collectionData = await createCollection(`NewCollection${interaction.toString()}`);
+                collectionData = await createCollection(`NewCollection`); //TODO
                 collectionUrl = collectionData.collectionUrl;
             }
         } catch (error) {
