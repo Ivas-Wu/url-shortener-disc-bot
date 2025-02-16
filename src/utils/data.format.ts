@@ -3,7 +3,7 @@ import { Url, Collection } from '../modal/url.modal';
 
 export function formatUrl(url: Url): string {
     const shortUrl = `${process.env.URL_SHORTENER_REDIRECT}${url!.shortUrl}`;
-    const urlName = getUrlNamme(url);
+    const urlName = getUrlName(url);
 
     return `[${urlName}](${shortUrl})`;
 }
@@ -21,7 +21,7 @@ export function formatCollection(collection: Collection): object {
     if (collection.urls) {
         collection.urls.slice(0, 25).forEach((urlData, index) => {
             embed.addFields({
-                name: getUrlNamme(urlData),
+                name: getUrlName(urlData),
                 value: formatUrl(urlData),
                 inline: false,
             });
@@ -39,6 +39,11 @@ export function formatError(errorMessage: string, error: unknown): string {
     }
 }
 
-function getUrlNamme(url: Url): string {
+export function getDomain(url: string): string {
+    const parsedUrl = new URL(url);
+    return parsedUrl.hostname;
+}
+
+function getUrlName(url: Url): string {
     return url!.altName?.trim().length > 0 ? url!.altName : url!.shortUrl;
 }

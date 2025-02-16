@@ -2,7 +2,7 @@ import { ChatInputCommandInteraction, Collection, Message, MessageFlags, SlashCo
 import { fetchMessages, handleReplyOrFollowup, handleReplyOrFollowupObject } from "../utils/discordHelpers";
 import validator from 'validator';
 import { addToCollection, createCollection, getCollection } from "../utils/api";
-import { formatCollection, formatError } from "../utils/data.format";
+import { formatCollection, formatError, getDomain } from "../utils/data.format";
 
 const clearBotMessagesCommand = new SlashCommandBuilder()
     .setName("clear")
@@ -135,7 +135,7 @@ async function executeCondenseChatMessages(interaction: ChatInputCommandInteract
         try {
             await handleReplyOrFollowup(interaction, `Adding ${messageToAdd.size} messages sent in the last ${time} minutes to collection: ${collectionUrl}.`, true);
             for (const message of messageToAdd.values()) {
-                await addToCollection(collectionUrl, message.content, null, null);
+                await addToCollection(collectionUrl, message.content, null, getDomain(message.content));
                 if (deleteMessages) {
                     await message.delete();
                 }
